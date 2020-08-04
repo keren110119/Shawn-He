@@ -34,7 +34,8 @@
          <p>Last Name: <input class="form-control" type = "text" name = "last_name" style='width: 100%;' value='{{eresult["last_name"]}}' /></p>
          <p>Address: <input class="form-control" type = "text" name = "address" style='width: 100%;' value='{{eresult["address"]}}' /></p>
          <p>City: <input class="form-control" type = "text" name = "city" style='width: 100%;' value='{{eresult["city"]}}' /></p>
-
+         <p>State: <input class="form-control" type ="text" name = "state" style='width: 100%;' value='{{eresult["state"]}}' /></p>
+         <p>Zip: <input class="form-control" type ="text" name = "zip" style='width: 100%;' value='{{eresult["zip"]}}' /></p>
          <input type ="hidden" name = "old_first_name" value='{{eresult["first_name"]}}' />
          <input type ="hidden" name = "old_last_name" value='{{eresult["last_name"]}}' />
 
@@ -57,16 +58,28 @@
          <p>Last Name: <input class="form-control" type = "text" name = "last_name" style='width: 100%;' /></p>
          <p>Address: <input class="form-control" type = "text" name = "address" style='width: 100%;' /></p>
          <p>City: <input class="form-control" type = "text" name = "city" style='width: 100%;' /></p>
+         <p>State: <input class="form-control" type ="text" name = "state" style='width: 100%;' /></p>
+         <p>Zip: <input class="form-control" type ="text" name = "zip" style='width: 100%;' /></p>
 
          <br>
 
+
+
          <p><input class="btn-primary" type = "submit" value = "Insert Data" /></p>
-        </form>
-        </div>
+
+         </form>
+
+         </div>
+
 
 
         {% endif %}
+        <form action = "deleteall" method = "GET">
+            <br>
+        <p><input class="btn-primary" type = "submit" value = "Delete All" /></p>
+        </form>
         {% endblock content %}
+
 
         <div style='margin-left: 20px; width: 45%;'>
         <div class="alert alert-warning" role="alert">
@@ -90,10 +103,14 @@
             <th>Last Name</th>
             <th>Address</th>
             <th>City</th>
-
+            <th>State</th>
+            <th>Zip</th>
             <th>EDIT</th>
             <th>DELETE</th>
+
+
             </tr>
+
          </thead>
 
          {% for result in results %}
@@ -102,10 +119,12 @@
                <td>{{result["last_name"]}}</td>
                <td>{{result["address"]}}</td>
                <td>{{result['city']}}</td>
-              
+               <td>{{result['state']}}</td>
+               <td>{{result['zip']}}</td>
                <td align="center"><a href = "{{ url_for('sql_editlink', efname=result['first_name'], elname=result['last_name']) }}"><i class="fas fa-edit"></a></td>
-               <td align="center"><a href = "{{ url_for('sql_datadelete', fname=result['first_name'], lname=result['last_name']) }}"><i class="fas fa-trash-alt"></a></td>
+               <td align="center"><a href = "{{ url_for('sql_datadelete', zipcode=result['zip']) }}"><i class="fas fa-trash-alt"></a></td>
             </tr>
+
          {% endfor %}
       </table>
 

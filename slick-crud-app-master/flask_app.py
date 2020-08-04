@@ -29,14 +29,14 @@ def sql_datainsert():
 def sql_datadelete():
     from functions.sqlquery import sql_delete, sql_query
     if request.method == 'GET':
-        lname = request.args.get('lname')
-        fname = request.args.get('fname')
-        sql_delete(''' DELETE FROM data_table where first_name = ? and last_name = ?''', (fname,lname) )
+        zipcode = request.args.get('zipcode')
+        sql_delete(''' DELETE FROM data_table where zip = ? ''', (zipcode.strip(),) )
     results = sql_query(''' SELECT * FROM data_table''')
-    msg = 'DELETE FROM data_table WHERE first_name = ' + fname + ' and last_name = ' + lname
+    msg = 'DELETE FROM data_table WHERE zip =' + zipcode
     return render_template('sqldatabase.html', results=results, msg=msg)
+
 @app.route('/query_edit',methods = ['POST', 'GET']) #this is when user clicks edit link
-def sql_editlink():
+def sql_editlink():           
     from functions.sqlquery import sql_query, sql_query2
     if request.method == 'GET':
         elname = request.args.get('elname')
@@ -60,7 +60,14 @@ def sql_dataedit():
     results = sql_query(''' SELECT * FROM data_table''')
     msg = 'UPDATE data_table set first_name = ' + first_name + ', last_name = ' + last_name + ', address = ' + address + ', city = ' + city + ', state = ' + state + ', zip = ' + zip + ' WHERE first_name = ' + old_first_name + ' and last_name = ' + old_last_name
     return render_template('sqldatabase.html', results=results, msg=msg)
-
+@app.route('/deleteall',methods = ['POST', 'GET']) #this is when user delete all data
+def sql_datadeleteall():
+    from functions.sqlquery import sql_query
+    if request.method == 'GET':
+        results = sql_query(''' SELECT * FROM data_table''')
+        msg = 'Delete all data !'
+        results.clear()
+    return render_template('sqldatabase.html', results=results, msg=msg)
 if __name__ == "__main__":
     app.run(debug=True)
 
