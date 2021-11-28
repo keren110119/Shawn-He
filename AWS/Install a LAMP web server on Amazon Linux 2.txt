@@ -1,0 +1,60 @@
+// Install a LAMP web server on Amazon Linux 2
+// Connect to your server
+// update software packages up to date
+
+sudo yum update -y
+
+//Install the lamp-mariadb10.2-php7.2 and php7.2
+
+sudo amazon-linux-extras install -y lamp-mariadb10.2-php7.2 php7.2
+
+// view your version of Amazon Linux
+
+cat /etc/system-release
+
+//install the Apache web server, MariaDB, and PHP software packages
+
+sudo yum install -y httpd mariadb-server
+
+//view the current versions of these packages
+
+yum info package_name
+
+//Start the Apache web server
+
+sudo systemctl start httpd
+
+//Use the systemctl command to configure the Apache web server to start at each system boot
+
+sudo systemctl enable httpd
+
+//verify that httpd is on by running the following command
+
+sudo systemctl is-enabled httpd
+
+//To set file permissions
+
+sudo usermod -a -G apache ec2-user
+
+//Log out
+
+exit
+
+//verify your membership in the apache group
+
+groups
+
+//Change the group ownership of /var/www and its contents to the apache group
+
+sudo chown -R ec2-user:apache /var/www
+
+//To add group write permissions and to set the group ID on future subdirectories, change the directory permissions of /var/www and its subdirectories
+
+sudo chmod 2775 /var/www && find /var/www -type d -exec sudo chmod 2775 {} \;
+
+//To add group write permissions, recursively change the file permissions of /var/www and its subdirectories
+
+find /var/www -type f -exec sudo chmod 0664 {} \;
+
+//To secure your web server
+
